@@ -1,0 +1,10 @@
+#HHHHHHHHHHHHHHHHHHHHHHHHHHH
+#         TRADE UI         H
+#   Plugin by Felnstaren   H
+#HHHHHHHHHHHHHHHHHHHHHHHHHHH
+
+
+# What messages do you want to see from this plugin? 
+# DEBUG -> INFO -> WARN -> SEVERE
+# You will see all messages above the priority you select
+logger-priority: INFO
