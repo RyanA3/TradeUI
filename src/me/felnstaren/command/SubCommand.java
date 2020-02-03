@@ -1,16 +1,19 @@
 package me.felnstaren.command;
 
+import java.util.ArrayList;
+
+import org.bukkit.command.CommandSender;
+
 public abstract class SubCommand extends CommandContinuator {
 
-	protected String label;
-	
 	protected SubCommand(CommandStub stub, String label) {
-		super(stub);
-		this.label = label;
+		super(stub, label);
 	}
 	
-	public String getSubLabel() {
-		return label;
+	
+	
+	public ArrayList<String> tab(CommandSender sender, String[] args, int current) {
+		return forwardTab(sender, args, current);
 	}
 
 }

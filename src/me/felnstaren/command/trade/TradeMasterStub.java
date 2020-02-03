@@ -9,7 +9,10 @@ public class TradeMasterStub extends CommandStub {
 
 	public boolean handle(CommandSender sender, String[] args, int current) {
 		sender.sendMessage(Messenger.color("&7 --- &8[&9TradeUI&8] &7--- \n"
-				+ "&aThis is TradeUI's main command!"));
+				+ "&a/trade cancel\n"
+				+ "&a/trade accept <player>\n"
+				+ "&a/trade deny <player>\n"
+				+ "&a/trade <player>"));
 		
 		return true;
 	}

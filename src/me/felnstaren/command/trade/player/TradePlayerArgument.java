@@ -7,7 +7,7 @@ import me.felnstaren.command.SubArgument;
 public class TradePlayerArgument extends SubArgument {
 	
 	public TradePlayerArgument() {
-		super(new TradePlayerArgumentStub());
+		super(new TradePlayerArgumentStub(), "<player>");
 	}
 	
 	
