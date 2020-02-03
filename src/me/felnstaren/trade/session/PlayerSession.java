@@ -1,5 +1,6 @@
 package me.felnstaren.trade.session;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import me.felnstaren.util.chat.Messenger;
 import me.felnstaren.util.item.InventoryOrganizer;
 import me.felnstaren.util.menu.TradeMenu;
+import me.felnstaren.util.sound.NoiseMaker;
 
 public class PlayerSession {
 	
@@ -29,11 +31,13 @@ public class PlayerSession {
 	public void cancel() {
 		menu.close();
 		player.sendMessage(Messenger.color("&eThe trade was cancelled!"));
+		NoiseMaker.playsound(Sound.BLOCK_ANVIL_LAND, player, 1, 1.5f, 12);
 	}
 	
 	public void accept() {
 		menu.close();
 		player.sendMessage(Messenger.color("&aThe trade was successful!"));
+		NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, player, 1, 1.5f, 10);
 	}
 	
 	

@@ -1,9 +1,19 @@
 package me.felnstaren.command;
 
+import java.util.ArrayList;
+
+import org.bukkit.command.CommandSender;
+
 public abstract class SubArgument extends CommandContinuator {
 	
-	protected SubArgument(CommandStub stub) {
-		super(stub);
+	protected SubArgument(CommandStub stub, String label) {
+		super(stub, label);
+	}
+	
+	
+	
+	public ArrayList<String> tab(CommandSender sender, String[] args, int current) {
+		return forwardTab(sender, args, current);
 	}
 
 }

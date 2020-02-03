@@ -7,7 +7,7 @@ import me.felnstaren.command.SubArgument;
 public class TradeDenyArgument extends SubArgument {
 
 	public TradeDenyArgument() {
-		super(new TradeDenyArgumentStub());
+		super(new TradeDenyArgumentStub(), "<player>");
 	}
 
 	public boolean handle(CommandSender sender, String[] args, int current) {
