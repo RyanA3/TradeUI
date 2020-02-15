@@ -11,4 +11,8 @@ public class Options {
 		Logger.logger_priority = Level.valueOf(config.getString("logger-priority"));
 	}
 	
+	
+	
+	public static int trade_request_timeout = 30;
+	
 }
