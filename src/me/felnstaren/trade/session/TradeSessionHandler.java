@@ -2,6 +2,7 @@ package me.felnstaren.trade.session;
 
 import java.util.ArrayList;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -54,6 +55,12 @@ public class TradeSessionHandler implements Listener {
 		sessions.add(session);
 	}
 	
+	public boolean hasOpenSession(Player player) {
+		for(TradeSession session : sessions) 
+			if(session.getParticipator1().equals(player) || session.getParticipator2().equals(player)) return true;
+		return false;
+	}
+	
 	public void purgeEndedSessions() {
 		ArrayList<TradeSession> remove = new ArrayList<TradeSession>();
 		
@@ -61,6 +68,13 @@ public class TradeSessionHandler implements Listener {
 			if(session.isComplete()) remove.add(session);
 		
 		sessions.removeAll(remove);
+	}
+	
+	public void closeAll() {
+		for(TradeSession session : sessions)
+			session.forceClose();
+		
+		purgeEndedSessions();
 	}
 
 }

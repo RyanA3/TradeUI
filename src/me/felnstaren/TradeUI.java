@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.felnstaren.command.trade.TradeMaster;
 import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
+import me.felnstaren.trade.request.TradeRequestHandler;
 import me.felnstaren.trade.session.TradeSessionHandler;
 
 public class TradeUI extends JavaPlugin {
@@ -20,7 +21,8 @@ public class TradeUI extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		
+		TradeSessionHandler.getInstance().closeAll();
+		TradeRequestHandler.getInstance().close();
 	}
 	
 }

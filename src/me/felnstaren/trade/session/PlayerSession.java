@@ -1,43 +1,62 @@
 package me.felnstaren.trade.session;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import me.felnstaren.util.Mathy;
 import me.felnstaren.util.chat.Messenger;
 import me.felnstaren.util.item.InventoryOrganizer;
+import me.felnstaren.util.item.ItemGiver;
+import me.felnstaren.util.item.ItemNBTEditor;
 import me.felnstaren.util.menu.TradeMenu;
 import me.felnstaren.util.sound.NoiseMaker;
 
 public class PlayerSession {
 	
+	private static List<Material> button_mats = Arrays.asList(Material.RED_TERRACOTTA, Material.YELLOW_TERRACOTTA, Material.GREEN_TERRACOTTA);
+	
 	private Player player;
-	private TradeMenu menu;
+	private Inventory inventory;
+	private boolean accepted = false;
+	private boolean reset_accept = false;
 	
 	public PlayerSession(Player player, String other_player) {
 		this.player = player;
-		this.menu = new TradeMenu(player, other_player);
+		this.inventory = new TradeMenu(other_player).getInventory();
 	}
 	
 	
 	
 	
+	public void update() {
+		player.updateInventory();
+	}
+	
 	public void open() {
-		menu.open();
+		player.openInventory(inventory);
 	}
 	
 	public void cancel() {
-		menu.close();
+		player.closeInventory();
 		player.sendMessage(Messenger.color("&eThe trade was cancelled!"));
 		NoiseMaker.playsound(Sound.BLOCK_ANVIL_LAND, player, 1, 1.5f, 12);
+		ItemGiver.giveItems(player, getInputColumn());
 	}
 	
-	public void accept() {
-		menu.close();
+	public void accept(ItemStack[] others_items) {
+		player.closeInventory();
 		player.sendMessage(Messenger.color("&aThe trade was successful!"));
 		NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, player, 1, 1.5f, 10);
+		ItemGiver.giveItems(player, others_items);
 	}
 	
 	
@@ -46,9 +65,34 @@ public class PlayerSession {
 		if(HandleHelper.illegal_clicks.contains(event.getClick())) event.setCancelled(true);
 		if(event.getClickedInventory() == null) return;
 		if(event.getClickedInventory().getType() != InventoryType.CHEST) return;
+		if(!event.getClickedInventory().equals(inventory)) return;
 		if(HandleHelper.illegal_slots.contains(event.getSlot())) event.setCancelled(true);
 		if(event.isCancelled()) return;
-		menu.fillItems(InventoryOrganizer.getItems(event.getClickedInventory(), 0, 0, 4, 6), 0, 0, 4, 6);
+		
+		ItemStack clicked = event.getCurrentItem();
+		
+		//Handle the accept button click
+		if(clicked == null && event.getCursor().getType() == Material.AIR) return;
+		if(ItemNBTEditor.hasTag(clicked, "element")) event.setCancelled(true);
+		if(ItemNBTEditor.hasTag(clicked, "accept_button")) {
+			int original = button_mats.indexOf(clicked.getType());
+			int next = original;
+			if(event.getClick() == ClickType.LEFT) next++;
+			else if(event.getClick() == ClickType.RIGHT) next--;
+			else return;
+			next = Mathy.clamp(next, 0, button_mats.size() - 1);
+
+			if(original == next) return;
+			clicked.setType(button_mats.get(next));
+			NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, (Player) event.getViewers().get(0), 1, 1.5f, 10);
+			if(next == button_mats.size() - 1) accepted = true;
+		} else {
+			InventoryOrganizer.getItem(inventory, 3, 5).setType(button_mats.get(0));
+			reset_accept = true;
+			accepted = false;
+		}
+		
+		//menu.fillItems(InventoryOrganizer.getItems(event.getClickedInventory(), 0, 0, 4, 6), 0, 0, 4, 6);
 	}
 	
 	
@@ -58,19 +102,36 @@ public class PlayerSession {
 	}
 	
 	public ItemStack[] getInputColumn() {
-		return menu.getItems(0, 0, 4, 6);
+		return InventoryOrganizer.getItems(inventory, 0, 0, 4, 6);
 	}
 	
 	public ItemStack[] getDisplayColumn() {
-		return menu.getItems(5, 0, 4, 6);
+		return InventoryOrganizer.getItems(inventory, 5, 0, 4, 6);	
 	}
 	
 	public void setInputColumn(ItemStack[] left_column) {
-		menu.fillItems(left_column, 0, 0, 4, 6);
+		InventoryOrganizer.fillItems(inventory, left_column, 0, 0, 4, 6);
 	}
 	
 	public void setDisplayColumn(ItemStack[] right_column) {
-		menu.fillItems(InventoryOrganizer.flip(right_column, 4, 6), 5, 0, 4, 6);
+		InventoryOrganizer.fillItems(inventory, InventoryOrganizer.flip(right_column, 4, 6), 5, 0, 4, 6);
 	}
 
+	public boolean isAccepted() {
+		return this.accepted;
+	}
+	
+	public void resetAccept() {
+		InventoryOrganizer.getItem(inventory, 3, 5).setType(button_mats.get(0));
+		this.accepted = false;
+	}
+	
+	public boolean isResetAcceptStatus() {
+		return this.reset_accept;
+	}
+	
+	public void setResetAcceptStatus(boolean value) {
+		this.reset_accept = value;
+	}
+	
 }

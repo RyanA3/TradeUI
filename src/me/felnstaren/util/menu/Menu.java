@@ -11,20 +11,8 @@ public class Menu {
 	private Player viewer;
 	private Inventory inventory;
 	
-	public Menu(Player viewer, String title, int size) {
-		this.viewer = viewer;
-		
+	public Menu(String title, int size) {
 		this.inventory = Bukkit.createInventory(viewer, size, title);
-	}
-	
-	
-	
-	public void open() {
-		viewer.openInventory(inventory);
-	}
-	
-	public void close() {
-		viewer.closeInventory();
 	}
 	
 	
@@ -51,6 +39,12 @@ public class Menu {
 	
 	public ItemStack[] getItems(int offX, int offY, int width, int height) {
 		return InventoryOrganizer.getItems(inventory, offX, offY, width, height);
+	}
+	
+	
+	
+	public Inventory getInventory() {
+		return this.inventory;
 	}
 
 }

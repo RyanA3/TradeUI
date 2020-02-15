@@ -14,7 +14,7 @@ import me.felnstaren.config.Loader;
 public class ItemNBTEditor {
 	
 	public static final int TAG_LIMIT = 20;
-	public static String key = "Horsia";
+	public static String key = "TradeUI";
 	
 	
 	//Edit NBT Tags by value

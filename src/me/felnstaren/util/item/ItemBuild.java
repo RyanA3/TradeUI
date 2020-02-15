@@ -53,6 +53,11 @@ public class ItemBuild {
 		return this;
 	}
 	
+	public ItemBuild tag(String tag) {
+		ItemNBTEditor.addTag(item, tag);
+		return this;
+	}
+	
 	
 	
 	public ItemStack get() {
