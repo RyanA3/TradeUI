@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 
 public abstract class SubArgument extends CommandContinuator {
 	
-	protected SubArgument(CommandStub stub, String label) {
+	public SubArgument(CommandStub stub, String label) {
 		super(stub, label);
 	}
 	
@@ -14,6 +14,10 @@ public abstract class SubArgument extends CommandContinuator {
 	
 	public ArrayList<String> tab(CommandSender sender, String[] args, int current) {
 		return forwardTab(sender, args, current);
+	}
+
+	public boolean handle(CommandSender sender, String[] args, int current) {
+		return forward(sender, args, current);
 	}
 
 }

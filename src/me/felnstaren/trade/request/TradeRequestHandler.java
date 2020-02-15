@@ -22,6 +22,10 @@ public class TradeRequestHandler {
 		return instance;
 	}
 	
+	public static boolean hasInstance() {
+		return instance != null;
+	}
+	
 	
 	private ArrayList<TradeRequest> queue_add = new ArrayList<TradeRequest>();
 	private ArrayList<TradeRequest> queue_remove = new ArrayList<TradeRequest>();
@@ -114,6 +118,8 @@ public class TradeRequestHandler {
 	
 	
 	public void close() {
+		if(instance == null) return;
+		
 		iterator.cancel();
 		
 		queue_remove.clear();
