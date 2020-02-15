@@ -21,10 +21,8 @@ public abstract class CommandContinuator implements CommandElement, Tabbable {
 	protected boolean forward(CommandSender sender, String[] args, int current) {
 		current++;
 		
-		if(current >= args.length) {
-			stub(sender, args);
-			return true;
-		}
+		if(current >= args.length) 
+			return stub(sender, args);
 		
 		for(SubCommand sub : commands) 
 			if(sub.getLabel().equals(args[current])) 

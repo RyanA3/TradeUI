@@ -21,8 +21,8 @@ public class TradeUI extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		TradeSessionHandler.getInstance().closeAll();
-		TradeRequestHandler.getInstance().close();
+		if(TradeSessionHandler.hasInstance()) TradeSessionHandler.getInstance().closeAll();
+		if(TradeRequestHandler.hasInstance()) TradeRequestHandler.getInstance().close();
 	}
 	
 }

@@ -11,20 +11,19 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 
 public class TradeSessionHandler implements Listener {
 	
-	private ArrayList<TradeSession> sessions = new ArrayList<TradeSession>();
+	private static TradeSessionHandler instance;
 	
-	public TradeSessionHandler() {
-		
-	}
-	
-	
-	
-	private static TradeSessionHandler handler;
 	public static TradeSessionHandler getInstance() {
-		if(handler == null) handler = new TradeSessionHandler();
-		return handler;
+		if(instance == null) instance = new TradeSessionHandler();
+		return instance;
 	}
 	
+	public static boolean hasInstance() {
+		return instance != null;
+	}
+	
+	
+	private ArrayList<TradeSession> sessions = new ArrayList<TradeSession>();
 	
 	
 	@EventHandler
@@ -71,6 +70,8 @@ public class TradeSessionHandler implements Listener {
 	}
 	
 	public void closeAll() {
+		if(instance == null) return;
+		
 		for(TradeSession session : sessions)
 			session.forceClose();
 		
