@@ -22,7 +22,7 @@ public class TradeConfig {
     }
     
     
-    
+    //
     public void init(Plugin main) {
     	TradeMain.sendConsoleMessage(ChatColor.GRAY + "Loading the " + name + " file...");
 		file = new File(main.getDataFolder(), name);

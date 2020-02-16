@@ -49,7 +49,7 @@ public class TradeCommand implements CommandExecutor {
 		}
 		
 		if(config.getDouble("max-trade-distance") > 0) {
-			if(!((Player) sender).getWorld().equals(Bukkit.getPlayer(args[1]).getWorld())) {
+			if(!((Player) sender).getWorld().equals(Bukkit.getPlayer(args[0]).getWorld())) {
 				sender.sendMessage(ChatColor.RED + language.getString("player-too-far-away").replace("[player]", args[0]));
 				return true;
 			} else if(((Player) sender).getLocation().distance(Bukkit.getPlayer(args[0]).getLocation()) > config.getDouble("max-trade-distance")) {

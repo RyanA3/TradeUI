@@ -28,6 +28,7 @@ public class TradeEvent implements Listener {
 	public void rightClickPlayer(PlayerInteractEntityEvent event) {
 		if(event.getRightClicked() == null) return;
 		if(!(event.getRightClicked() instanceof Player)) return;
+		if(!config.getBoolean("use-shifting")) return;
 		Player receiver = (Player) event.getRightClicked();
 		Player sender = event.getPlayer();
 		
