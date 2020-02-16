@@ -12,7 +12,7 @@ public class ItemGiver {
 		for(int i = 0; i < items.length; i++) {
 			if(items[i] == null || items[i].getType() == Material.AIR) continue;
 			if(ItemNBTEditor.hasTag(items[i], "element")) continue;
-			if(!isFull(player.getInventory())) player.getInventory().addItem(items[i]);
+			if(hasConventionalInventorySpace(player)) player.getInventory().addItem(items[i]);
 			else dropItem(player.getLocation(), items[i]);
 		}
 	}
@@ -30,6 +30,15 @@ public class ItemGiver {
 			if(items[i] == null || items[i].getType() == Material.AIR) return false;
 		
 		return true;
+	}
+	
+	public static boolean hasConventionalInventorySpace(Player player) {
+		ItemStack[] items = player.getInventory().getContents();
+		
+		for(int i = 0; i < 35; i++)
+			if(items[i] == null || items[i].getType() == Material.AIR) return true;
+		
+		return false;
 	}
 	
 }
