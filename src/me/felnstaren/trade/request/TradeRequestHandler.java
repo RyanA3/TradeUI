@@ -10,8 +10,10 @@ import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
 import me.felnstaren.trade.session.TradeSession;
 import me.felnstaren.trade.session.TradeSessionHandler;
+import me.felnstaren.util.chat.Messenger;
 import me.felnstaren.util.logger.Level;
 import me.felnstaren.util.logger.Logger;
+import me.felnstaren.util.player.PlayerLocationator;
 
 public class TradeRequestHandler {
 
@@ -30,12 +32,14 @@ public class TradeRequestHandler {
 	private ArrayList<TradeRequest> queue_add = new ArrayList<TradeRequest>();
 	private ArrayList<TradeRequest> queue_remove = new ArrayList<TradeRequest>();
 	private HashMap<TradeRequest, Integer> requests = new HashMap<TradeRequest, Integer>();
+	private boolean looping = false;
 	
 	private BukkitRunnable iterator;
 	
 	public TradeRequestHandler() {
 		iterator = new BukkitRunnable() {
 			public void run() {
+				looping = true;
 				for(TradeRequest request : requests.keySet()) {
 					if(requests.get(request) < 0) {
 						queue_remove.add(request);
@@ -44,6 +48,7 @@ public class TradeRequestHandler {
 						requests.put(request, requests.get(request) - 1);
 					}
 				}
+				looping = false;
 				
 				purgeRemoveQueue();
 				emptyAddQueue();
@@ -73,12 +78,44 @@ public class TradeRequestHandler {
 	}
 	
 	
-	public void addRequest(TradeRequest request) {
-		queue_add.add(request);
+	
+	
+	public void attemptSendRequest(Player sender, Player receiver) {
+		TradeSessionHandler shand = TradeSessionHandler.getInstance();
+		
+		
+		if(!PlayerLocationator.areClose(sender, receiver, Options.trade_max_distance)) 
+			sender.sendMessage(Messenger.color("&cYou are to far away from &7" + receiver.getName() + " &cto trade with them!"));
+		else if(hasRequestOfSender(receiver)) {
+			
+			if(shand.hasOpenSession(receiver))
+				sender.sendMessage(Messenger.color("&7" + receiver.getName() + " &cis currently trading!"));
+			 else 
+				acceptRequest(getRequestOfSender(receiver));
+			
+		} else if(hasRequestOfSender(sender)) 
+			sender.sendMessage(Messenger.color("&cYou can only have one active trade request!"));
+		else 
+			addRequest(new TradeRequest(sender, receiver));
+		
+	}
+	
+	private void addRequest(TradeRequest request) {
+		if(requests.containsKey(request)) return;
+		
+		if(looping) queue_add.add(request);
+		else {
+			request.sendInitialMessage();
+			requests.put(request, Options.trade_request_timeout);
+		}
 	}
 	
 	private void removeRequest(TradeRequest request) {
-		queue_remove.add(request);
+		if(!requests.containsKey(request)) return;
+		
+		if(looping) queue_remove.add(request);
+		else 
+			requests.remove(request);
 	}
 	
 	
