@@ -20,6 +20,7 @@ public class TradeRequestListener implements Listener {
 		Player clicker = event.getPlayer();
 		
 		if(!clicker.isSneaking()) return;
+		if(!clicker.hasPermission("trade_ui.trade") && Options.require_trade_permission) return;
 		
 		TradeRequestHandler.getInstance().attemptSendRequest(clicker, clicked);
 	}

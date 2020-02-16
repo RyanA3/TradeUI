@@ -15,6 +15,7 @@ public class Options {
 		
 		use_shifting = config.getBoolean("allow-shifting");
 		use_commands = config.getBoolean("allow-commands");
+		require_trade_permission = config.getBoolean("require-trade-permission");
 	}
 	
 	
@@ -24,5 +25,6 @@ public class Options {
 	
 	public static boolean use_shifting = true;
 	public static boolean use_commands = true;
+	public static boolean require_trade_permission = true;
 	
 }

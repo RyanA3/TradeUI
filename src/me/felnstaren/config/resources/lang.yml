@@ -59,6 +59,8 @@ ifo:
  
  session-cancelled: "&eThe trade was cancelled!"
  session-succeeded: "&aThe trade was successful!"
+
+ will-reload: "&7Reloading the config and lang files..."
  
 
 cmd:

@@ -67,7 +67,10 @@ public class PlayerSession {
 		if(event.getClickedInventory().getType() != InventoryType.CHEST) return;
 		if(!event.getClickedInventory().equals(inventory)) return;
 		if(HandleHelper.illegal_slots.contains(event.getSlot())) event.setCancelled(true);
-		if(event.isCancelled()) return;
+		if(event.isCancelled()) {
+			NoiseMaker.playsound(Sound.BLOCK_CHEST_LOCKED, player, 1, 2, 3);
+			return;
+		}
 		
 		ItemStack clicked = event.getCurrentItem();
 		
@@ -83,8 +86,9 @@ public class PlayerSession {
 			next = Mathy.clamp(next, 0, button_mats.size() - 1);
 
 			if(original == next) return;
+			else if(next > original) NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, player, 1, 1.5f, 5);
+			else NoiseMaker.playsound(Sound.ENTITY_ITEM_BREAK, player, 1, 1.5f, 3);
 			clicked.setType(button_mats.get(next));
-			NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, (Player) event.getViewers().get(0), 1, 1.5f, 10);
 			if(next == button_mats.size() - 1) accepted = true;
 		} else {
 			InventoryOrganizer.getItem(inventory, 3, 5).setType(button_mats.get(0));
