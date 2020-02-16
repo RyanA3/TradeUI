@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 
 import me.felnstaren.command.CommandStub;
 import me.felnstaren.command.SubCommand;
+import me.felnstaren.config.Language;
 import me.felnstaren.trade.request.TradeRequestHandler;
-import me.felnstaren.util.chat.Messenger;
 
 public class TradeCancelSub extends SubCommand {
 
@@ -17,7 +17,7 @@ public class TradeCancelSub extends SubCommand {
 				TradeRequestHandler thand = TradeRequestHandler.getInstance();
 			
 				if(!thand.hasRequestOfSender(player)) 
-					sender.sendMessage(Messenger.color("&cYou do not have a trade request!"));
+					sender.sendMessage(Language.msg("err.no-request"));
 				else 
 					thand.cancelRequest(thand.getRequestOfSender(player));
 

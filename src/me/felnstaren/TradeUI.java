@@ -4,6 +4,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.felnstaren.command.trade.TradeMaster;
+import me.felnstaren.config.Language;
 import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
 import me.felnstaren.listener.TradeRequestListener;
@@ -14,6 +15,7 @@ public class TradeUI extends JavaPlugin {
 
 	public void onEnable() {
 		Options.load(Loader.loadOrDefault("config.yml", "config.yml"));
+		Language.load(Loader.loadOrDefault("lang.yml", "lang.yml"));
 		
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(TradeSessionHandler.getInstance(), this);

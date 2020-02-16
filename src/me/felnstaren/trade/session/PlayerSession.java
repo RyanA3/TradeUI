@@ -12,8 +12,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import me.felnstaren.config.Language;
 import me.felnstaren.util.Mathy;
-import me.felnstaren.util.chat.Messenger;
 import me.felnstaren.util.item.InventoryOrganizer;
 import me.felnstaren.util.item.ItemGiver;
 import me.felnstaren.util.item.ItemNBTEditor;
@@ -47,14 +47,14 @@ public class PlayerSession {
 	
 	public void cancel() {
 		player.closeInventory();
-		player.sendMessage(Messenger.color("&eThe trade was cancelled!"));
+		player.sendMessage(Language.msg("ifo.session-cancelled"));
 		NoiseMaker.playsound(Sound.BLOCK_ANVIL_LAND, player, 1, 1.5f, 12);
 		ItemGiver.giveItems(player, getInputColumn());
 	}
 	
 	public void accept(ItemStack[] others_items) {
 		player.closeInventory();
-		player.sendMessage(Messenger.color("&aThe trade was successful!"));
+		player.sendMessage(Language.msg("ifo.session-succeeded"));
 		NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, player, 1, 1.5f, 10);
 		ItemGiver.giveItems(player, others_items);
 	}

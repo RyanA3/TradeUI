@@ -6,8 +6,9 @@ import org.bukkit.entity.Player;
 
 import me.felnstaren.command.CommandStub;
 import me.felnstaren.command.SubArgument;
+import me.felnstaren.config.ChatVar;
+import me.felnstaren.config.Language;
 import me.felnstaren.trade.request.TradeRequestHandler;
-import me.felnstaren.util.chat.Messenger;
 
 public class TradePlayerArgument extends SubArgument {
 	
@@ -18,7 +19,7 @@ public class TradePlayerArgument extends SubArgument {
 				Player receiver = Bukkit.getPlayerExact(args[current]);
 
 				if(receiver == null) {
-					player.sendMessage(Messenger.color("&7" + args[current] + " &cis not online at the moment!"));
+					player.sendMessage(Language.msg("err.player-not-found", new ChatVar("[Player]", args[current])));
 					return true;
 				}
 				

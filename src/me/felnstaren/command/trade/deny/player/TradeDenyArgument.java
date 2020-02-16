@@ -6,8 +6,9 @@ import org.bukkit.entity.Player;
 
 import me.felnstaren.command.CommandStub;
 import me.felnstaren.command.SubArgument;
+import me.felnstaren.config.ChatVar;
+import me.felnstaren.config.Language;
 import me.felnstaren.trade.request.TradeRequestHandler;
-import me.felnstaren.util.chat.Messenger;
 
 public class TradeDenyArgument extends SubArgument {
 
@@ -19,12 +20,12 @@ public class TradeDenyArgument extends SubArgument {
 				TradeRequestHandler thand = TradeRequestHandler.getInstance();
 				
 				if(denied == null) {
-					player.sendMessage(Messenger.color("&7" + args[current] + " &cis not online at the moment!"));
+					player.sendMessage(Language.msg("err.player-not-found", new ChatVar("[Player]", args[current])));
 					return true;
 				}
 			
 				if(!thand.hasRequestOfSender(denied)) 
-					sender.sendMessage(Messenger.color("&7" + denied.getName() + " &chas not requested to trade with you!"));
+					sender.sendMessage(Language.msg("err.player-hasnt-request", new ChatVar("[Player]", denied.getName())));
 				else 
 					thand.denyRequest(thand.getRequestOfSender(denied));
 

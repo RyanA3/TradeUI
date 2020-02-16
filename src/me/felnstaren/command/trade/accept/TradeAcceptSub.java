@@ -5,14 +5,14 @@ import org.bukkit.command.CommandSender;
 import me.felnstaren.command.CommandStub;
 import me.felnstaren.command.SubCommand;
 import me.felnstaren.command.trade.accept.player.TradeAcceptArgument;
-import me.felnstaren.util.chat.Messenger;
+import me.felnstaren.config.Language;
 
 public class TradeAcceptSub extends SubCommand {
 
 	public TradeAcceptSub() {
 		super(new CommandStub() {
 			public boolean handle(CommandSender sender, String[] args, int current) {
-				sender.sendMessage(Messenger.color("&aUse /trade accept <player> to accept a specific player's trade request!"));
+				sender.sendMessage(Language.msg("cmd.accept-usage"));
 				return true;
 			}
 		}, "accept");
