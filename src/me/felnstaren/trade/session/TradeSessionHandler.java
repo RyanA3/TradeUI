@@ -9,6 +9,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 
+import me.felnstaren.util.logger.Level;
+import me.felnstaren.util.logger.Logger;
+
 public class TradeSessionHandler implements Listener {
 	
 	private static TradeSessionHandler instance;
@@ -70,6 +73,7 @@ public class TradeSessionHandler implements Listener {
 	}
 	
 	public void closeAll() {
+		Logger.log(Level.DEBUG, "Closing all active trade sessions in TradeSessionHandler");
 		if(instance == null) return;
 		
 		for(TradeSession session : sessions)

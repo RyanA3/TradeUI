@@ -69,4 +69,14 @@ public class TradeRequest {
 		receiver.sendMessage(Language.msg("ifo.time-out-request", new ChatVar("[Player]", sender.getName())));
 	}
 	
+	public void sendWalkAwayMessage(boolean sender_walked) {
+		if(sender_walked) {
+			sender.sendMessage(Language.msg("ifo.walk-away-request", new ChatVar("[Player]", receiver.getName())));
+			receiver.sendMessage(Language.msg("ifo.request-walked-away", new ChatVar("[Player]", sender.getName())));
+		} else {
+			sender.sendMessage(Language.msg("ifo.request-walked-away", new ChatVar("[Player]", receiver.getName())));
+			receiver.sendMessage(Language.msg("ifo.walk-away-request", new ChatVar("[Player]", sender.getName())));
+		}
+	}
+	
 }

@@ -24,3 +24,9 @@ max-trade-distance: 15
 
 #How long until trades automatically time-out
 trade-request-timeout: 20
+
+#Set this to false to not automatically cancel requests if players walk away
+cancel-request-on-walk-away: true
+
+#Set this to true to allow players to trade with themselves, Warning: THIS IS A FEATURE PURELY FOR TESTING, the plugin WILL malfunction if you set this to true
+allow-self-trading: false

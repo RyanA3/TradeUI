@@ -43,6 +43,8 @@ err:
  player-is-trading: "&7[Player] &cis already trading."
  player-hasnt-request: "&7[Player] &chas not requested to trade with you."
  player-too-far-away: "&cYou are too far away from &7[Player] &cto trade with them!"
+ player-hasnt-permission: "&7[Player] &cdoes not have permission to &7[Permission]&c!"
+ cant-trade-self: "&cYou cannot trade with yourself!"
 
 ifo:
  sent-request: "&aYou have sent a trade request to &7[Player]"
@@ -50,12 +52,14 @@ ifo:
  cancel-request: "&aYou have cancelled your request to &7[Player]"
  deny-request: "&aYou have denied &7[Player]&a's trade request"
  time-out-request: "&eYou didn't accept &7[Player]&e's trade request in time"
+ walk-away-request: "&eYou walked away from &7[Player]"
  
  request-received: "&7[Player] &ahas requested to trade with you"
  request-accepted: "&7[Player] &ahas accepted your trade request"
  request-denied: "&7[Player] &ahas denied your trade request"
  request-cancelled: "&7[Player] &ahas cancelled their request to trade with you"
  request-timed-out: "&7[Player] &edidn't accept your request in time"
+ request-walked-away: "&7[Player] &ewalked away"
  
  session-cancelled: "&eThe trade was cancelled!"
  session-succeeded: "&aThe trade was successful!"

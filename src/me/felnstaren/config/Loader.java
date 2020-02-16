@@ -19,6 +19,12 @@ public class Loader {
 	
 	
 	
+	
+	public static YamlConfiguration loadDefault(String defalt) {
+		File file = new File(Loader.class.getResource("resources/" + defalt).getPath());
+		return YamlConfiguration.loadConfiguration(file);
+	}
+	
 	public static YamlConfiguration loadOrDefault(String name, String defalt) {
 		dirs();
 		
@@ -26,11 +32,11 @@ public class Loader {
 		if(!file.exists()) {
 			try { 
 				file.createNewFile(); 
-				Logger.log(Level.DEBUG, "Created file; " + file.getPath());
+				Logger.log(Level.DEBUG, "Successfully created file; " + file.getPath());
 			} 
 			catch (IOException e) { 
 				e.printStackTrace(); 
-				Logger.log(Level.SEVERE, "A fatal error occured while creating this file; " + file.getPath());
+				Logger.log(Level.SEVERE, "Fatal error loading file; " + file.getPath());
 				return null;
 			}
 			copy(file, defalt);
@@ -51,11 +57,11 @@ public class Loader {
 				out_stream.write(buffer);
 				out_stream.close();
 				
-				Logger.log(Level.DEBUG, "Copied file; " + copy.getPath() + " from plugin resource file; " + original);
+				Logger.log(Level.DEBUG, "Successfully generated default configuration file; " + copy.getPath());
 			}
 		} catch (Exception e) { 
 			e.printStackTrace(); 
-			Logger.log(Level.SEVERE, "An error occured while copying to this file; " + copy.getPath());
+			Logger.log(Level.SEVERE, "A fatal error occured while generating this default configuration file; " + copy.getPath());
 			return null;
 		}
 		
@@ -80,17 +86,18 @@ public class Loader {
 		} 
 		catch (IOException e) { 
 			e.printStackTrace(); 
-			Logger.log(Level.WARNING, "An error occured saving this file; " + file.getPath());
+			Logger.log(Level.WARNING, "An error occured whilst saving this file; " + file.getPath());
 		}
 	}
 	
 	
 	
 	private static void dirs() {
-		Logger.log(Level.DEBUG, "Marking non-existant directories");
-		
 		File data_folder = plugin.getDataFolder();
-		if (!data_folder.exists()) data_folder.mkdirs(); 
+		if (!data_folder.exists()) {
+			data_folder.mkdirs(); 
+			Logger.log(Level.DEBUG, "Generated default plugin folder");
+		}
 	}
 
 }

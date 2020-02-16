@@ -7,6 +7,8 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.felnstaren.config.Loader;
+import me.felnstaren.util.logger.Level;
+import me.felnstaren.util.logger.Logger;
 
 public class TradeSession {
 
@@ -29,6 +31,7 @@ public class TradeSession {
 	
 	
 	public void open() {
+		Logger.log(Level.DEBUG, "Trade session opened");
 		p1.open();
 		p2.open();
 		queueUpdate();
@@ -37,6 +40,7 @@ public class TradeSession {
 	public void queueUpdate() {
 		new BukkitRunnable() {
 			public void run() {
+				Logger.log(Level.DEBUG, "Trade session updated");
 				p1.setDisplayColumn(p2.getInputColumn());
 				p2.setDisplayColumn(p1.getInputColumn());
 				p1.update();
@@ -50,6 +54,7 @@ public class TradeSession {
 		
 		new BukkitRunnable() {
 			public void run() {
+				Logger.log(Level.DEBUG, "Trade session cancelled");
 				p1.cancel();
 				p2.cancel();
 			}
@@ -57,6 +62,7 @@ public class TradeSession {
 	}
 	
 	public void forceClose() {
+		Logger.log(Level.DEBUG, "Trade session forcefully closed");
 		complete = true;
 		p1.cancel();
 		p2.cancel();
@@ -67,6 +73,7 @@ public class TradeSession {
 		
 		new BukkitRunnable() {
 			public void run() {
+				Logger.log(Level.DEBUG, "Trade session accepted");
 				if(!p1.isAccepted() || !p2.isAccepted()) {
 					queueClose();
 					return;

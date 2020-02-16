@@ -8,6 +8,8 @@ import me.felnstaren.config.ChatVar;
 import me.felnstaren.config.Language;
 import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
+import me.felnstaren.util.logger.Level;
+import me.felnstaren.util.logger.Logger;
 
 public class TradeReloadSub extends SubCommand {
 
@@ -15,6 +17,7 @@ public class TradeReloadSub extends SubCommand {
 		super(new CommandStub() {
 			public boolean handle(CommandSender sender, String[] args, int current) {
 				sender.sendMessage(Language.msg("ifo.will-reload"));
+				Logger.log(Level.INFO, sender.getName() + " reloaded TradeUI's configuration settings");
 				Options.load(Loader.loadOrDefault("config.yml", "config.yml"));
 				Language.load(Loader.loadOrDefault("lang.yml", "lang.yml"));
 				return true;

@@ -91,6 +91,7 @@ public class PlayerSession {
 			clicked.setType(button_mats.get(next));
 			if(next == button_mats.size() - 1) accepted = true;
 		} else {
+			if(InventoryOrganizer.getItem(inventory, 3, 5).getType() != button_mats.get(0)) NoiseMaker.playsound(Sound.BLOCK_ANVIL_USE, player, 1, 1.5f, 3);
 			InventoryOrganizer.getItem(inventory, 3, 5).setType(button_mats.get(0));
 			reset_accept = true;
 			accepted = false;
@@ -127,6 +128,7 @@ public class PlayerSession {
 	
 	public void resetAccept() {
 		InventoryOrganizer.getItem(inventory, 3, 5).setType(button_mats.get(0));
+		if(InventoryOrganizer.getItem(inventory, 3, 5).getType() != button_mats.get(0)) NoiseMaker.playsound(Sound.BLOCK_ANVIL_USE, player, 1, 1.5f, 3);
 		this.accepted = false;
 	}
 	

@@ -23,6 +23,11 @@ public class TradePlayerArgument extends SubArgument {
 					return true;
 				}
 				
+				if(!receiver.hasPermission("trade_ui.trade")) {
+					player.sendMessage(Language.msg("err.player-hasnt-permission", new ChatVar("[Player]", receiver.getName()), new ChatVar("[Permission]", "trade_ui.trade")));
+					return true;
+				}
+				
 				TradeRequestHandler.getInstance().attemptSendRequest(player, receiver);
 
 				return true;

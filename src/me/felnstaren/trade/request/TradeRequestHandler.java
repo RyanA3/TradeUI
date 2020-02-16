@@ -3,6 +3,7 @@ package me.felnstaren.trade.request;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -38,6 +39,8 @@ public class TradeRequestHandler {
 	private BukkitRunnable iterator;
 	
 	public TradeRequestHandler() {
+		Logger.log(Level.DEBUG, "Entering Trade Request timeout loop");
+		
 		iterator = new BukkitRunnable() {
 			public void run() {
 				looping = true;
@@ -53,8 +56,6 @@ public class TradeRequestHandler {
 				
 				purgeRemoveQueue();
 				emptyAddQueue();
-				
-				Logger.log(Level.DEBUG, "Loop " + requests.size() + " active trade requests");
 			}
 		};
 		
@@ -64,11 +65,16 @@ public class TradeRequestHandler {
 	
 	
 	public void purgeRemoveQueue() {
+		if(queue_remove.isEmpty()) return;
+		Logger.log(Level.DEBUG, "Removing " + queue_remove.size() + " requests from active trade requests");
 		for(TradeRequest request : queue_remove) requests.remove(request);
 		queue_remove.clear();
 	}
 	
 	public void emptyAddQueue() {
+		if(queue_add.isEmpty()) return;
+		Logger.log(Level.DEBUG, "Adding " + queue_add.size() + " requests to active trade requests");
+		
 		for(TradeRequest request : queue_add) {
 			if(requests.containsKey(request)) continue;
 			requests.put(request, Options.trade_request_timeout);
@@ -85,7 +91,9 @@ public class TradeRequestHandler {
 		TradeSessionHandler shand = TradeSessionHandler.getInstance();
 		
 		
-		if(!PlayerLocationator.areClose(sender, receiver, Options.trade_max_distance)) 
+		if(sender.equals(receiver) && !Options.allow_trade_self) 
+			sender.sendMessage(Language.msg("err.cant-trade-self"));
+		else if(!PlayerLocationator.areClose(sender, receiver, Options.trade_max_distance)) 
 			sender.sendMessage(Language.msg("err.player-too-far-away", new ChatVar("[Player]", receiver.getName())));
 		else if(hasRequestOfSender(receiver)) {
 			
@@ -108,6 +116,7 @@ public class TradeRequestHandler {
 		else {
 			request.sendInitialMessage();
 			requests.put(request, Options.trade_request_timeout);
+			Logger.log(Level.DEBUG, "Directly added trade request to active requests");
 		}
 	}
 	
@@ -115,13 +124,21 @@ public class TradeRequestHandler {
 		if(!requests.containsKey(request)) return;
 		
 		if(looping) queue_remove.add(request);
-		else 
+		else {
 			requests.remove(request);
+			Logger.log(Level.DEBUG, "Directly removed trade request from active requests");
+		}
 	}
 	
 	
 	
 	public void acceptRequest(TradeRequest request) {
+		if(request.getSender().getGameMode() == GameMode.SPECTATOR || request.getReceiver().getGameMode() == GameMode.SPECTATOR) {
+			request.getSender().sendMessage(Language.msg("err.impossible-action"));
+			request.getReceiver().sendMessage(Language.msg("err.impossible-action"));
+			return;
+		}
+		
 		removeRequest(request);
 		request.sendAcceptMessage();
 		TradeSessionHandler.getInstance().addSession(new TradeSession(request.getSender(), request.getReceiver()));
@@ -136,9 +153,25 @@ public class TradeRequestHandler {
 		removeRequest(request);
 		request.sendDenyMessage();
 	}
+	
+	public void walkAwayRequest(TradeRequest request, boolean sender_walked) {
+		removeRequest(request);
+		request.sendWalkAwayMessage(sender_walked);
+	}
 
 	
 	
+	
+	public boolean hasRequestOfReceiver(Player player) {
+		for(TradeRequest request : requests.keySet()) if(request.getReceiver().equals(player)) return true;
+		return false;
+	}
+	
+	public ArrayList<TradeRequest> getRequestsToReceiver(Player player) {
+		ArrayList<TradeRequest> out = new ArrayList<TradeRequest>();
+		for(TradeRequest request : requests.keySet()) if(request.getReceiver().equals(player)) out.add(request);
+		return out;
+	}
 	
 	public boolean hasRequestOfSender(Player player) {
 		for(TradeRequest request : requests.keySet()) if(request.getSender().equals(player)) return true;
@@ -156,6 +189,7 @@ public class TradeRequestHandler {
 	
 	
 	public void close() {
+		Logger.log(Level.DEBUG, "Cancelling all active trade requests in TradeRequestHandler");
 		if(instance == null) return;
 		
 		iterator.cancel();
