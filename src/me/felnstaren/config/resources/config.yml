@@ -16,6 +16,9 @@ allow-commands: true
 #Set to false to disable trading by shift-right-clicking
 allow-shifting: true
 
+#Set to false to allow all players to trade
+require-trade-permission: true
+
 #Set to -1 to remove the distance requirement
 max-trade-distance: 15
 
