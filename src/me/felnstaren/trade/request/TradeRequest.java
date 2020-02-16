@@ -34,14 +34,18 @@ public class TradeRequest {
 	
 	public void sendInitialMessage() {
 		sender.sendMessage(Messenger.color("&aYou sent a trade request to &7" + receiver.getDisplayName() + "&a, they have &7" + display_timeout + " &aseconds to respond!"));
-		String sjson = "[\"\",{\"text\":\"[\",\"color\":\"gray\"},{\"text\":\"Cancel\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade cancel\"}},{\"text\":\"]\",\"color\":\"gray\"}]";
-		PacketPlayOutChat rpacket = new PacketPlayOutChat(ChatSerializer.b(sjson));
-		((CraftPlayer) sender).getHandle().playerConnection.sendPacket(rpacket);
+		if(Options.use_commands) {
+			String sjson = "[\"\",{\"text\":\"[\",\"color\":\"gray\"},{\"text\":\"Cancel\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade cancel\"}},{\"text\":\"]\",\"color\":\"gray\"}]";
+			PacketPlayOutChat rpacket = new PacketPlayOutChat(ChatSerializer.b(sjson));
+			((CraftPlayer) sender).getHandle().playerConnection.sendPacket(rpacket);
+		}
 		
 		receiver.sendMessage(Messenger.color("&7" + sender.getDisplayName() + " &asent you a trade request, you have &7" + display_timeout + " &aseconds to respond!"));
-		String rjson = "[\"\",{\"text\":\"[\",\"color\":\"gray\"},{\"text\":\"Accept\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade accept " + sender.getName() + "\"}},{\"text\":\"] [\",\"color\":\"gray\"},{\"text\":\"Deny\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade deny " + sender.getName() + "\"}},{\"text\":\"]\",\"color\":\"gray\"}]";
-		PacketPlayOutChat spacket = new PacketPlayOutChat(ChatSerializer.b(rjson));
-		((CraftPlayer) receiver).getHandle().playerConnection.sendPacket(spacket);
+		if(Options.use_commands) {
+			String rjson = "[\"\",{\"text\":\"[\",\"color\":\"gray\"},{\"text\":\"Accept\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade accept " + sender.getName() + "\"}},{\"text\":\"] [\",\"color\":\"gray\"},{\"text\":\"Deny\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade deny " + sender.getName() + "\"}},{\"text\":\"]\",\"color\":\"gray\"}]";
+			PacketPlayOutChat spacket = new PacketPlayOutChat(ChatSerializer.b(rjson));
+			((CraftPlayer) receiver).getHandle().playerConnection.sendPacket(spacket);
+		}
 	}
 	
 	public void sendCancelMessage() {

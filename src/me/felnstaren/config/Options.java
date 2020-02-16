@@ -13,6 +13,10 @@ public class Options {
 	
 	
 	
-	public static int trade_request_timeout = 30;
+	public static int trade_request_timeout = 20;
+	public static int trade_max_distance = -1;
+	
+	public static boolean use_shifting = true;
+	public static boolean use_commands = true;
 	
 }
