@@ -3,8 +3,9 @@ package me.felnstaren.trade.request;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import me.felnstaren.config.ChatVar;
+import me.felnstaren.config.Language;
 import me.felnstaren.config.Options;
-import me.felnstaren.util.chat.Messenger;
 import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
 
@@ -33,39 +34,39 @@ public class TradeRequest {
 	
 	
 	public void sendInitialMessage() {
-		sender.sendMessage(Messenger.color("&aYou sent a trade request to &7" + receiver.getDisplayName() + "&a, they have &7" + display_timeout + " &aseconds to respond!"));
+		sender.sendMessage(Language.msg("ifo.sent-request", new ChatVar("[Player]", receiver.getName()), new ChatVar("[Timeout]", display_timeout + "")));
 		if(Options.use_commands) {
-			String sjson = "[\"\",{\"text\":\"[\",\"color\":\"gray\"},{\"text\":\"Cancel\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade cancel\"}},{\"text\":\"]\",\"color\":\"gray\"}]";
+			String sjson = "[\"\",{\"text\":\"" + Language.msg("cmd.cancel-button") + "\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade cancel\"}}]";
 			PacketPlayOutChat rpacket = new PacketPlayOutChat(ChatSerializer.b(sjson));
 			((CraftPlayer) sender).getHandle().playerConnection.sendPacket(rpacket);
 		}
 		
-		receiver.sendMessage(Messenger.color("&7" + sender.getDisplayName() + " &asent you a trade request, you have &7" + display_timeout + " &aseconds to respond!"));
+		receiver.sendMessage(Language.msg("ifo.request-received", new ChatVar("[Player]", sender.getName()), new ChatVar("[Timeout]", display_timeout + "")));
 		if(Options.use_commands) {
-			String rjson = "[\"\",{\"text\":\"[\",\"color\":\"gray\"},{\"text\":\"Accept\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade accept " + sender.getName() + "\"}},{\"text\":\"] [\",\"color\":\"gray\"},{\"text\":\"Deny\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade deny " + sender.getName() + "\"}},{\"text\":\"]\",\"color\":\"gray\"}]";
+			String rjson = "[\"\",{\"text\":\"" + Language.msg("cmd.accept-button") + "\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade accept " + sender.getName() + "\"}},{\"text\":\"   \",\"color\":\"gray\"},{\"text\":\"" + Language.msg("cmd.deny-button") + "\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade deny " + sender.getName() + "\"}}]";
 			PacketPlayOutChat spacket = new PacketPlayOutChat(ChatSerializer.b(rjson));
 			((CraftPlayer) receiver).getHandle().playerConnection.sendPacket(spacket);
 		}
 	}
 	
 	public void sendCancelMessage() {
-		sender.sendMessage(Messenger.color("&aYou cancelled your trade request to &7" + receiver.getDisplayName() + "&a!"));
-		receiver.sendMessage(Messenger.color("&7" + sender.getDisplayName() + " &acancelled their trade request to you!"));
+		sender.sendMessage(Language.msg("ifo.cancel-request", new ChatVar("[Player]", receiver.getName())));
+		receiver.sendMessage(Language.msg("ifo.request-cancelled", new ChatVar("[Player]", sender.getName())));
 	}
 	
 	public void sendAcceptMessage() {
-		sender.sendMessage(Messenger.color("&7" + receiver.getDisplayName() + " &aaccepted your trade request!"));
-		receiver.sendMessage(Messenger.color("&aYou accepted &7" + sender.getDisplayName() + "&a's trade request!"));
+		sender.sendMessage(Language.msg("ifo.request-accepted", new ChatVar("[Player]", receiver.getName())));
+		receiver.sendMessage(Language.msg("ifo.accept-request", new ChatVar("[Player]", sender.getName())));
 	}
 	
 	public void sendDenyMessage() {
-		sender.sendMessage(Messenger.color("&7" + receiver.getDisplayName() + " &adenied your trade request!"));
-		receiver.sendMessage(Messenger.color("&aYou denied &7" + sender.getDisplayName() + "&a's trade request!"));
+		sender.sendMessage(Language.msg("ifo.request-denied", new ChatVar("[Player]", receiver.getName())));
+		receiver.sendMessage(Language.msg("ifo.deny-request", new ChatVar("[Player]", sender.getName())));
 	}
 	
 	public void sendTimeoutMessage() {
-		sender.sendMessage(Messenger.color("&aYour trade request with &7" + receiver.getDisplayName() + " &atimed out!"));
-		receiver.sendMessage(Messenger.color("&7" + sender.getDisplayName() + "&a's trade request timed out!"));
+		sender.sendMessage(Language.msg("ifo.request-timed-out", new ChatVar("[Player]", receiver.getName())));
+		receiver.sendMessage(Language.msg("ifo.time-out-request", new ChatVar("[Player]", sender.getName())));
 	}
 	
 }

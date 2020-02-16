@@ -8,8 +8,8 @@ import me.felnstaren.command.trade.accept.TradeAcceptSub;
 import me.felnstaren.command.trade.cancel.TradeCancelSub;
 import me.felnstaren.command.trade.deny.TradeDenySub;
 import me.felnstaren.command.trade.player.TradePlayerArgument;
+import me.felnstaren.config.Language;
 import me.felnstaren.config.Options;
-import me.felnstaren.util.chat.Messenger;
 
 public class TradeMaster extends MasterCommand {
 
@@ -17,14 +17,9 @@ public class TradeMaster extends MasterCommand {
 		super(new CommandStub() {
 			public boolean handle(CommandSender sender, String[] args, int current) {
 				if(Options.use_commands) 
-					sender.sendMessage(Messenger.color("&7 --- &8[&9TradeUI&8] &7--- \n"
-							+ "&a/trade cancel\n"
-							+ "&a/trade accept <player>\n"
-							+ "&a/trade deny <player>\n"
-							+ "&a/trade <player>"));
+					sender.sendMessage(Language.msg("cmd.trade-master-usage"));
 				else 
-					sender.sendMessage(Messenger.color("&cThis command has been disabled by an administrator. \n" 
-							+ "&cmaybe you should &7try shift-right-clicking someone if you wish to trade with them&c."));
+					sender.sendMessage(Language.msg("err.commands-disabled"));
 				return true;
 			}
 		}, "trade", "tradeui.trade");

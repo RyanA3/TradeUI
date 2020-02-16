@@ -6,9 +6,10 @@ import org.bukkit.entity.Player;
 
 import me.felnstaren.command.CommandStub;
 import me.felnstaren.command.SubArgument;
+import me.felnstaren.config.ChatVar;
+import me.felnstaren.config.Language;
 import me.felnstaren.trade.request.TradeRequestHandler;
 import me.felnstaren.trade.session.TradeSessionHandler;
-import me.felnstaren.util.chat.Messenger;
 
 public class TradeAcceptArgument extends SubArgument {
 
@@ -21,16 +22,16 @@ public class TradeAcceptArgument extends SubArgument {
 				TradeSessionHandler shand = TradeSessionHandler.getInstance();
 				
 				if(accepted == null) {
-					player.sendMessage(Messenger.color("&7" + args[current] + " &cis not online at the moment!"));
+					player.sendMessage(Language.msg("err.player-not-found", new ChatVar("[Player]", args[current])));
 					return true;
 				}
 			
 				if(!thand.hasRequestOfSender(accepted)) 
-					sender.sendMessage(Messenger.color("&7" + accepted.getName() + " &chas not requested to trade with you!"));
+					sender.sendMessage(Language.msg("err.player-hasnt-request", new ChatVar("[Player]", accepted.getName())));
 				else if(shand.hasOpenSession(accepted))
-					sender.sendMessage(Messenger.color("&7" + accepted.getName() + " &cis already trading!"));
+					sender.sendMessage(Language.msg("err.player-is-trading", new ChatVar("[Player]", accepted.getName())));
 				else if(shand.hasOpenSession(player)) 
-					sender.sendMessage(Messenger.color("&cYou cant accept a request while trading!"));
+					sender.sendMessage(Language.msg("err.impossible-action"));
 				else 
 					thand.acceptRequest(thand.getRequestOfSender(accepted));
 				

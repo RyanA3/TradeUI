@@ -9,6 +9,12 @@ public class Options {
 
 	public static void load(YamlConfiguration config) {
 		Logger.logger_priority = Level.valueOf(config.getString("logger-priority"));
+		
+		trade_request_timeout = config.getInt("trade-request-timeout");
+		trade_max_distance = config.getInt("max-trade-distance");
+		
+		use_shifting = config.getBoolean("allow-shifting");
+		use_commands = config.getBoolean("allow-commands");
 	}
 	
 	

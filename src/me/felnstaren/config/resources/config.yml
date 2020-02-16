@@ -1,10 +1,23 @@
-#HHHHHHHHHHHHHHHHHHHHHHHHHHH
-#         TRADE UI         H
-#   Plugin by Felnstaren   H
-#HHHHHHHHHHHHHHHHHHHHHHHHHHH
+#HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+#         TRADE UI GENERAL CONFIG         H
+#          Plugin by Felnstaren           H
+#HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 
 
 # What messages do you want to see from this plugin? 
 # DEBUG -> INFO -> WARN -> SEVERE
 # You will see all messages above the priority you select
 logger-priority: INFO
+
+
+#Set to false to disable trading by using commands
+allow-commands: true
+
+#Set to false to disable trading by shift-right-clicking
+allow-shifting: true
+
+#Set to -1 to remove the distance requirement
+max-trade-distance: 15
+
+#How long until trades automatically time-out
+trade-request-timeout: 20

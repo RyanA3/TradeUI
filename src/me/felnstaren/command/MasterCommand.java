@@ -10,7 +10,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import me.felnstaren.util.chat.Messenger;
+import me.felnstaren.config.ChatVar;
+import me.felnstaren.config.Language;
 
 public abstract class MasterCommand extends CommandContinuator implements CommandExecutor, TabCompleter {
 	
@@ -33,17 +34,17 @@ public abstract class MasterCommand extends CommandContinuator implements Comman
 	
 	public boolean handle(CommandSender sender, String[] args, int current) {
 		if(!sender.hasPermission(this.permission)) {
-			sender.sendMessage(Messenger.color("&cYou do not have permission to &7" + permission + "&c!"));
+			sender.sendMessage(Language.msg("err.no-permission", new ChatVar("[Permission]", permission)));
 			return true;
 		}
 		
 		if(!(sender instanceof Player)) {
-			sender.sendMessage(Messenger.color("&cOnly players can use this command!"));
+			sender.sendMessage(Language.msg("err.impossible-action"));
 			return true;
 		}
 		
 		if(!forward(sender, args, current)) 
-			sender.sendMessage(Messenger.color("&c&oImproper command usage!"));
+			sender.sendMessage(Language.msg("err.invalid-command"));
 
 		return true;
 	}

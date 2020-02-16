@@ -6,11 +6,12 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.felnstaren.config.ChatVar;
+import me.felnstaren.config.Language;
 import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
 import me.felnstaren.trade.session.TradeSession;
 import me.felnstaren.trade.session.TradeSessionHandler;
-import me.felnstaren.util.chat.Messenger;
 import me.felnstaren.util.logger.Level;
 import me.felnstaren.util.logger.Logger;
 import me.felnstaren.util.player.PlayerLocationator;
@@ -85,16 +86,16 @@ public class TradeRequestHandler {
 		
 		
 		if(!PlayerLocationator.areClose(sender, receiver, Options.trade_max_distance)) 
-			sender.sendMessage(Messenger.color("&cYou are to far away from &7" + receiver.getName() + " &cto trade with them!"));
+			sender.sendMessage(Language.msg("err.player-too-far-away", new ChatVar("[Player]", receiver.getName())));
 		else if(hasRequestOfSender(receiver)) {
 			
 			if(shand.hasOpenSession(receiver))
-				sender.sendMessage(Messenger.color("&7" + receiver.getName() + " &cis currently trading!"));
+				sender.sendMessage(Language.msg("err.player-is-trading", new ChatVar("[Player]", receiver.getName())));
 			 else 
 				acceptRequest(getRequestOfSender(receiver));
 			
 		} else if(hasRequestOfSender(sender)) 
-			sender.sendMessage(Messenger.color("&cYou can only have one active trade request!"));
+			sender.sendMessage(Language.msg("err.only-one-request"));
 		else 
 			addRequest(new TradeRequest(sender, receiver));
 		

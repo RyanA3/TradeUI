@@ -22,7 +22,6 @@ public class TradeRequestListener implements Listener {
 		if(!clicker.isSneaking()) return;
 		
 		TradeRequestHandler.getInstance().attemptSendRequest(clicker, clicked);
-		
 	}
 	
 }
