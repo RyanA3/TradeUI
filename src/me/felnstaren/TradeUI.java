@@ -8,6 +8,7 @@ import me.felnstaren.config.Language;
 import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
 import me.felnstaren.listener.TradeRequestListener;
+import me.felnstaren.listener.TradeWalkAwayListener;
 import me.felnstaren.trade.request.TradeRequestHandler;
 import me.felnstaren.trade.session.TradeSessionHandler;
 
@@ -20,6 +21,7 @@ public class TradeUI extends JavaPlugin {
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(TradeSessionHandler.getInstance(), this);
 		pm.registerEvents(new TradeRequestListener(), this);
+		pm.registerEvents(new TradeWalkAwayListener(), this);
 		
 		this.getCommand("trade").setExecutor(new TradeMaster());
 	}

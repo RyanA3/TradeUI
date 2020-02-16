@@ -25,6 +25,11 @@ public class TradeAcceptArgument extends SubArgument {
 					player.sendMessage(Language.msg("err.player-not-found", new ChatVar("[Player]", args[current])));
 					return true;
 				}
+				
+				if(!accepted.hasPermission("trade_ui.trade")) {
+					player.sendMessage(Language.msg("err.player-hasnt-permission", new ChatVar("[Player]", accepted.getName()), new ChatVar("[Permission]", "trade_ui.trade")));
+					return true;
+				}
 			
 				if(!thand.hasRequestOfSender(accepted)) 
 					sender.sendMessage(Language.msg("err.player-hasnt-request", new ChatVar("[Player]", accepted.getName())));

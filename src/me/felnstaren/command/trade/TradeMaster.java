@@ -25,7 +25,7 @@ public class TradeMaster extends MasterCommand {
 					sender.sendMessage(Language.msg("err.commands-disabled"));
 				return true;
 			}
-		}, "trade", "tradeui.trade");
+		}, "trade", "trade_ui.trade");
 		
 		commands.add(new TradeAcceptSub());
 		commands.add(new TradeCancelSub());
