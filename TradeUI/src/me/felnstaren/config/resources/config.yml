@@ -1,8 +1,0 @@
-#How long trade requests will remain active until they time out (in seconds)
-request-timeout: 60
-
-#This is the max distance in blocks players can be from each other to trade. Setting this to -1 will allow players to trade from anywhere
-max-trade-distance: -1
-
-#Set this to false if you only want players to be able to trade by shift-right-clicking each other. Note: This will also disable the clickable buttons in chat.
-use-commands: true
