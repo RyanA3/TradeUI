@@ -2,7 +2,7 @@ name: TradeUI
 main: me.felnstaren.TradeUI
 version: 1.0.0a
 author: Felnstaren
-description: A custom, 1 on 1, anti-scam trading plugin.
+description: An easy to use player trading plugin
 api-version: 1.14
 
 commands:

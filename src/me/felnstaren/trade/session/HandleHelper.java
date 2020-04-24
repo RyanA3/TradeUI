@@ -13,7 +13,7 @@ public class HandleHelper {
 			22, 23, 24, 25, 26,
 			31, 32, 33, 34, 35,
 			40, 41, 42, 43, 44,
-			49, 50, 51, 52
+			49, 50, 51, 52, 53
 	);
 	
 	public static List<ClickType> illegal_clicks = Arrays.asList(
@@ -21,7 +21,8 @@ public class HandleHelper {
 			ClickType.SHIFT_LEFT,
 			ClickType.SHIFT_RIGHT,
 			ClickType.WINDOW_BORDER_LEFT,
-			ClickType.WINDOW_BORDER_RIGHT
+			ClickType.WINDOW_BORDER_RIGHT,
+			ClickType.DOUBLE_CLICK
 			);
 			
 	

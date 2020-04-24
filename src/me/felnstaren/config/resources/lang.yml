@@ -74,4 +74,9 @@ cmd:
  accept-usage: "&7Use /trade accept <Player>"
  deny-usage: "&7Use /trade deny <Player>"
  trade-master-usage: "&7 --- &8[&9TradeUI&8]&7 ---    \n&a/trade <Player>    \n&a/trade cancel    \n&a/trade accept <Player>    \n&a/trade deny <Player>"
+
+
+
+menu:
+ header: "&0YOU   >>>   [Player]"
  

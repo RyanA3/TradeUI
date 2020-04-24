@@ -13,6 +13,7 @@ import me.felnstaren.util.logger.Logger;
 public class TradeSession {
 
 	private boolean complete = false;
+	private boolean updating = false;
 	
 	private PlayerSession p1;
 	private PlayerSession p2;
@@ -45,6 +46,7 @@ public class TradeSession {
 				p2.setDisplayColumn(p1.getInputColumn());
 				p1.update();
 				p2.update();
+				updating = false;
 			}
 		}.runTaskLater(Loader.plugin, 1);
 	}
@@ -103,7 +105,7 @@ public class TradeSession {
 
 		if(p1.isAccepted() && p2.isAccepted()) 
 			queueAccept();
-		else 
+		else if(!updating)
 			queueUpdate();
 	}
 	

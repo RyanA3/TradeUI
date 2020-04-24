@@ -6,6 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.felnstaren.util.item.InventoryOrganizer;
+
 public class Menu {
 
 	private Player viewer;
