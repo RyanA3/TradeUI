@@ -77,7 +77,7 @@ public class TradeSessionHandler implements Listener {
 		if(instance == null) return;
 		
 		for(TradeSession session : sessions)
-			session.forceClose();
+			session.close();
 		
 		purgeEndedSessions();
 	}

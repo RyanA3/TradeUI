@@ -39,6 +39,9 @@ public class TradeSession {
 	}
 	
 	public void queueUpdate() {
+		if(updating) return;
+		updating = true;
+		
 		new BukkitRunnable() {
 			public void run() {
 				Logger.log(Level.DEBUG, "Trade session updated");
@@ -52,19 +55,15 @@ public class TradeSession {
 	}
 	
 	public void queueClose() {
-		complete = true;
-		
 		new BukkitRunnable() {
 			public void run() {
-				Logger.log(Level.DEBUG, "Trade session cancelled");
-				p1.cancel();
-				p2.cancel();
+				close();
 			}
 		}.runTaskLater(Loader.plugin, 1);
 	}
 	
-	public void forceClose() {
-		Logger.log(Level.DEBUG, "Trade session forcefully closed");
+	public void close() {
+		Logger.log(Level.DEBUG, "Trade session closed");
 		complete = true;
 		p1.cancel();
 		p2.cancel();
@@ -90,18 +89,9 @@ public class TradeSession {
 	
 	
 	public void handleEdit(InventoryClickEvent event) {
-		if(event.getViewers().contains(p1.getPlayer())) p1.handleEdit(event);
-		else if(event.getViewers().contains(p2.getPlayer())) p2.handleEdit(event);
+		if(event.getViewers().contains(p1.getPlayer())) p1.handleEdit(event, p2);
+		else if(event.getViewers().contains(p2.getPlayer())) p2.handleEdit(event, p1);
 		else return;
-		
-		if(p1.isResetAcceptStatus()) {
-			p1.setResetAcceptStatus(false);
-			p2.resetAccept();
-		}
-		if(p2.isResetAcceptStatus()) {
-			p2.setResetAcceptStatus(false);
-			p1.resetAccept();
-		}
 
 		if(p1.isAccepted() && p2.isAccepted()) 
 			queueAccept();
@@ -114,8 +104,7 @@ public class TradeSession {
 	}
 	
 	public void handleClose(InventoryCloseEvent event) {
-		if(!event.getViewers().contains(p1.getPlayer()) && !event.getViewers().contains(p2.getPlayer())) return;
-		queueClose();
+		if(event.getViewers().contains(p1.getPlayer()) || event.getViewers().contains(p2.getPlayer())) queueClose();
 	}
 	
 	
