@@ -79,7 +79,13 @@ public class PlayerSession {
 		
 		if(event.getClick() == ClickType.SHIFT_LEFT) {
 			event.setCancelled(true);
-			shiftOn(event.getView().getTopInventory(), event.getView().getBottomInventory(), clicked, event.getRawSlot());
+			
+			boolean success = shiftOn(event.getView().getTopInventory(), event.getView().getBottomInventory(), clicked, event.getRawSlot());
+			if(success) {
+				other.resetAccept();
+				resetAccept();
+			}
+				
 			event.setCurrentItem(clicked);
 			return;
 		}
@@ -116,7 +122,7 @@ public class PlayerSession {
 		if(next == button_mats.size() - 1) accepted = true;
 	}
 	
-	private void shiftOn(Inventory top, Inventory bottom, ItemStack clicked, int slot) {
+	private boolean shiftOn(Inventory top, Inventory bottom, ItemStack clicked, int slot) {
 		Logger.log(Level.DEBUG, "Shifting item from slot " + slot);
 		
 		if(slot < 54) { //Shift out of top
@@ -125,7 +131,7 @@ public class PlayerSession {
 			
 				bottom.setItem(i, clicked.clone());
 				clicked.setType(Material.AIR);
-				return;
+				return true;
 			}
 		} else { //Shift in to top
 			for(int i = 0; i < top.getSize(); i++) {
@@ -134,9 +140,11 @@ public class PlayerSession {
 			
 				top.setItem(i, clicked.clone());
 				clicked.setType(Material.AIR);
-				return;
+				return true;
 			}
 		}
+		
+		return false;
 	}
 	
 	
