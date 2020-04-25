@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.ClickType;
 
 public class HandleHelper {
 
-	public static List<Integer> illegal_slots = Arrays.asList(
+	public static final List<Integer> ILLEGAL_SLOTS = Arrays.asList(
 			4, 5, 6, 7, 8,
 			13, 14, 15, 16, 17,
 			22, 23, 24, 25, 26,
@@ -16,13 +16,11 @@ public class HandleHelper {
 			49, 50, 51, 52, 53
 	);
 	
-	public static List<ClickType> illegal_clicks = Arrays.asList(
+	public static final List<ClickType> ILLEGAL_CLICKS = Arrays.asList(
 			ClickType.DOUBLE_CLICK,
-			ClickType.SHIFT_LEFT,
 			ClickType.SHIFT_RIGHT,
 			ClickType.WINDOW_BORDER_LEFT,
-			ClickType.WINDOW_BORDER_RIGHT,
-			ClickType.DOUBLE_CLICK
+			ClickType.WINDOW_BORDER_RIGHT
 			);
 			
 	

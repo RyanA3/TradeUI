@@ -19,6 +19,8 @@ import me.felnstaren.util.Mathy;
 import me.felnstaren.util.item.InventoryOrganizer;
 import me.felnstaren.util.item.ItemGiver;
 import me.felnstaren.util.item.ItemNBTEditor;
+import me.felnstaren.util.logger.Level;
+import me.felnstaren.util.logger.Logger;
 import me.felnstaren.util.menu.TradeMenu;
 import me.felnstaren.util.sound.NoiseMaker;
 
@@ -65,16 +67,25 @@ public class PlayerSession {
 	public void handleEdit(InventoryClickEvent event, PlayerSession other) {
 		if(event.getAction() == InventoryAction.NOTHING) return;
 		if(event.getClickedInventory() == null) return;
-		if(event.getClickedInventory().getType() != InventoryType.CHEST) return;
-		if(!event.getClickedInventory().equals(inventory)) return;
-		if(HandleHelper.illegal_clicks.contains(event.getClick())) event.setCancelled(true);
-		if(HandleHelper.illegal_slots.contains(event.getSlot())) event.setCancelled(true);
+		if(HandleHelper.ILLEGAL_CLICKS.contains(event.getClick())) event.setCancelled(true);
+		if(HandleHelper.ILLEGAL_SLOTS.contains(event.getRawSlot())) event.setCancelled(true);
 		if(event.isCancelled()) {
 			NoiseMaker.playsound(Sound.BLOCK_CHEST_LOCKED, player, 1, 2, 3);
 			return;
 		}
 		
 		ItemStack clicked = event.getCurrentItem();
+		if(clicked == null) return;
+		
+		if(event.getClick() == ClickType.SHIFT_LEFT) {
+			event.setCancelled(true);
+			shiftOn(event.getView().getTopInventory(), event.getView().getBottomInventory(), clicked, event.getRawSlot());
+			event.setCurrentItem(clicked);
+			return;
+		}
+		
+		if(!event.getClickedInventory().equals(inventory)) return;
+		if(event.getClickedInventory().getType() != InventoryType.CHEST) return;
 		
 		//Handle the accept button click
 		if(ItemNBTEditor.hasTag(clicked, "element")) event.setCancelled(true);
@@ -103,6 +114,29 @@ public class PlayerSession {
 		
 		button.setType(button_mats.get(next));
 		if(next == button_mats.size() - 1) accepted = true;
+	}
+	
+	private void shiftOn(Inventory top, Inventory bottom, ItemStack clicked, int slot) {
+		Logger.log(Level.DEBUG, "Shifting item from slot " + slot);
+		
+		if(slot < 54) { //Shift out of top
+			for(int i = 0; i < bottom.getSize(); i++) {
+				if(bottom.getItem(i) != null) continue;
+			
+				bottom.setItem(i, clicked.clone());
+				clicked.setType(Material.AIR);
+				return;
+			}
+		} else { //Shift in to top
+			for(int i = 0; i < top.getSize(); i++) {
+				if(HandleHelper.ILLEGAL_SLOTS.contains(i)) continue;
+				if(top.getItem(i) != null) continue;
+			
+				top.setItem(i, clicked.clone());
+				clicked.setType(Material.AIR);
+				return;
+			}
+		}
 	}
 	
 	

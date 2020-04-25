@@ -14,6 +14,7 @@ public class TradeSession {
 
 	private boolean complete = false;
 	private boolean updating = false;
+	private boolean closing = false;
 	
 	private PlayerSession p1;
 	private PlayerSession p2;
@@ -55,9 +56,13 @@ public class TradeSession {
 	}
 	
 	public void queueClose() {
+		if(closing) return;
+		closing = true;
+		
 		new BukkitRunnable() {
 			public void run() {
 				close();
+				closing = false;
 			}
 		}.runTaskLater(Loader.plugin, 1);
 	}
@@ -70,6 +75,8 @@ public class TradeSession {
 	}
 	
 	public void queueAccept() {
+		if(closing) return;
+		closing = true;
 		complete = true;
 		
 		new BukkitRunnable() {
@@ -82,6 +89,7 @@ public class TradeSession {
 				
 				p1.accept(p2.getInputColumn());
 				p2.accept(p1.getInputColumn());
+				closing = false;
 			}
 		}.runTaskLater(Loader.plugin, 1);
 	}
