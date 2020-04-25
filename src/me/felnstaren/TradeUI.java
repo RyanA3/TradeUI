@@ -9,8 +9,11 @@ import me.felnstaren.config.Loader;
 import me.felnstaren.config.Options;
 import me.felnstaren.listener.TradeRequestListener;
 import me.felnstaren.listener.TradeWalkAwayListener;
+import me.felnstaren.metrics.Metrics;
 import me.felnstaren.trade.request.TradeRequestHandler;
 import me.felnstaren.trade.session.TradeSessionHandler;
+import me.felnstaren.util.logger.Level;
+import me.felnstaren.util.logger.Logger;
 
 public class TradeUI extends JavaPlugin {
 
@@ -24,6 +27,13 @@ public class TradeUI extends JavaPlugin {
 		pm.registerEvents(new TradeWalkAwayListener(), this);
 		
 		this.getCommand("trade").setExecutor(new TradeMaster());
+		
+		try {
+			Metrics metrics = new Metrics(this, 7321);
+			if(metrics.isEnabled()) Logger.log(Level.DEBUG, "Enabled plugin metrics");
+		} catch(Exception e) {
+			Logger.log(Level.WARNING, "Failed to init plugin metrics");
+		}
 	}
 	
 	public void onDisable() {
