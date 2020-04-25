@@ -30,3 +30,9 @@ cancel-request-on-walk-away: true
 
 #Set this to true to allow players to trade with themselves, Warning: THIS IS A FEATURE PURELY FOR TESTING, the plugin WILL malfunction if you set this to true
 allow-self-trading: false
+
+#Set this to the main version your server is running on
+#Supported versions
+# (1.15.x)   --->   115
+# (1.14.x)   --->   114
+version: 115
