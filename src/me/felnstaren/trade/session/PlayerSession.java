@@ -26,7 +26,7 @@ import me.felnstaren.util.sound.NoiseMaker;
 
 public class PlayerSession {
 	
-	private static List<Material> button_mats = Arrays.asList(Material.RED_TERRACOTTA, Material.YELLOW_TERRACOTTA, Material.GREEN_TERRACOTTA);
+	private final static List<Material> BUTTONS = Arrays.asList(Material.RED_TERRACOTTA, Material.YELLOW_TERRACOTTA, Material.GREEN_TERRACOTTA);
 	
 	private Player player;
 	private Inventory inventory;
@@ -77,7 +77,9 @@ public class PlayerSession {
 		ItemStack clicked = event.getCurrentItem();
 		if(clicked == null) return;
 		
-		if(event.getClick() == ClickType.SHIFT_LEFT) {
+		if(ItemNBTEditor.hasTag(clicked, "element")) event.setCancelled(true);
+		
+		if(event.getClick() == ClickType.SHIFT_LEFT && !event.isCancelled()) {
 			event.setCancelled(true);
 			
 			boolean success = shiftOn(event.getView().getTopInventory(), event.getView().getBottomInventory(), clicked, event.getRawSlot());
@@ -94,7 +96,6 @@ public class PlayerSession {
 		if(event.getClickedInventory().getType() != InventoryType.CHEST) return;
 		
 		//Handle the accept button click
-		if(ItemNBTEditor.hasTag(clicked, "element")) event.setCancelled(true);
 		if(ItemNBTEditor.hasTag(clicked, "accept_button")) {
 			incAcceptButton(clicked, event.getClick());
 		} else {
@@ -106,20 +107,20 @@ public class PlayerSession {
 	
 	
 	private void incAcceptButton(ItemStack button, ClickType click) {
-		int original = button_mats.indexOf(button.getType());
+		int original = BUTTONS.indexOf(button.getType());
 		int next = original;
 		if(click == ClickType.LEFT) next++;
 		else if(click == ClickType.RIGHT) next--;
 		else return;
 		
-		next = Mathy.clamp(next, 0, button_mats.size() - 1);
+		next = Mathy.clamp(next, 0, BUTTONS.size() - 1);
 
 		if(original == next) return;
 		else if(next > original) NoiseMaker.playsound(Sound.ENTITY_PLAYER_LEVELUP, player, 1, 1.5f, 5);
 		else NoiseMaker.playsound(Sound.ENTITY_ITEM_BREAK, player, 1, 1.5f, 3);
 		
-		button.setType(button_mats.get(next));
-		if(next == button_mats.size() - 1) accepted = true;
+		button.setType(BUTTONS.get(next));
+		if(next == BUTTONS.size() - 1) accepted = true;
 	}
 	
 	private boolean shiftOn(Inventory top, Inventory bottom, ItemStack clicked, int slot) {
@@ -168,8 +169,8 @@ public class PlayerSession {
 	
 	public void resetAccept() {
 		ItemStack button = InventoryOrganizer.getItem(inventory, 3, 5);
-		if(button.getType() != button_mats.get(0)) NoiseMaker.playsound(Sound.BLOCK_ANVIL_USE, player, 1, 1.5f, 3);
-		button.setType(button_mats.get(0));
+		if(button.getType() != BUTTONS.get(0)) NoiseMaker.playsound(Sound.BLOCK_ANVIL_USE, player, 1, 1.5f, 3);
+		button.setType(BUTTONS.get(0));
 		this.accepted = false;
 	}
 	

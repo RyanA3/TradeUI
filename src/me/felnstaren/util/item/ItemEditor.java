@@ -5,32 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class ItemEditor {
-	
-	public static void equip(Player player, ItemStack... item) {
-		for(ItemStack i : item) equip(player, i);
-	}
-	
-	public static void equip(Player player, ItemStack item) {
-		Material mat = item.getType();
-		String name = mat.toString().toLowerCase();
-		
-		if(name.contains("helmet")) player.getInventory().setItem(39, item);
-		else if(name.contains("chestplate")) player.getInventory().setItem(38, item);
-		else if(name.contains("leggings")) player.getInventory().setItem(37, item);
-		else if(name.contains("boots")) player.getInventory().setItem(36, item);
-		
-		else if(name.contains("sword")) player.getInventory().setItem(0, item);
-		else player.getInventory().addItem(item);
-	}
-	
 	
 	public static ItemStack addLore(ItemStack item, String str) {
 		ItemMeta meta = item.getItemMeta();
