@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/Ryan/Desktop/Server/BuildTools/BuildTools103/spigot-1.14.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ryan/Desktop/Server/BuildTools/BuildTools91/spigot-1.13.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ryan/Desktop/Server/BuildTools/BuildTools112/spigot-1.12.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ryan/Desktop/Server/BuildTools/BuildTools112/spigot-1.16.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

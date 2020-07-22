@@ -18,7 +18,7 @@ public class TradePlayerArgument extends SubArgument {
 				Player player = (Player) sender;
 				Player receiver = Bukkit.getPlayerExact(args[current]);
 
-				if(receiver == null) {
+				if(receiver == null || !Bukkit.getOnlinePlayers().contains(receiver)) {
 					player.sendMessage(Language.msg("err.player-not-found", new ChatVar("[Player]", args[current])));
 					return true;
 				}

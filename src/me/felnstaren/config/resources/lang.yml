@@ -32,6 +32,7 @@
 #===============================================
 
 
+#Error Messages
 err:
  commands-disabled: "&cCommands have been disabled by an administrator, maybe you should try shift-right-clicking someone."
  impossible-action: "&cThis action is not allowed by TradeUI."
@@ -46,6 +47,7 @@ err:
  player-hasnt-permission: "&7[Player] &cdoes not have permission to &7[Permission]&c!"
  cant-trade-self: "&cYou cannot trade with yourself!"
 
+#Info
 ifo:
  sent-request: "&aYou have sent a trade request to &7[Player]"
  accept-request: "&aYou have accepted &7[Player]&a's trade request"
@@ -67,6 +69,7 @@ ifo:
  will-reload: "&7Reloading the config and lang files..."
  
 
+#Commands
 cmd:
  accept-button: "&7[&aAccept&7]"
  cancel-button: "&7[&cCancel&7]"
@@ -76,7 +79,7 @@ cmd:
  trade-master-usage: "&7 --- &8[&9TradeUI&8]&7 ---    \n&a/trade <Player>    \n&a/trade cancel    \n&a/trade accept <Player>    \n&a/trade deny <Player>"
 
 
-
+#UI
 menu:
  header: "&0YOU   >>>   [Player]"
  

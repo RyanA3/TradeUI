@@ -12,6 +12,7 @@ import me.felnstaren.listener.TradeWalkAwayListener;
 import me.felnstaren.metrics.Metrics;
 import me.felnstaren.trade.request.TradeRequestHandler;
 import me.felnstaren.trade.session.TradeSessionHandler;
+import me.felnstaren.util.chat.Messenger;
 import me.felnstaren.util.logger.Level;
 import me.felnstaren.util.logger.Logger;
 
@@ -20,6 +21,8 @@ public class TradeUI extends JavaPlugin {
 	public void onEnable() {
 		Options.load(Loader.loadOrDefault("config.yml", "config.yml"));
 		Language.load(Loader.loadOrDefault("lang.yml", "lang.yml"));
+		
+		Logger.log(Level.INFO, Messenger.color("&arunning on minecraft version &7" + Options.version));
 		
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(TradeSessionHandler.getInstance(), this);

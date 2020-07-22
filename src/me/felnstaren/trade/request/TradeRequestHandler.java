@@ -111,13 +111,14 @@ public class TradeRequestHandler {
 	
 	private void addRequest(Player sender, Player receiver) {
 		TradeRequest request = null;
-		if(Options.version == 115) request = new TradeRequest115(sender, receiver);
+		if(Options.version == 116) request = new TradeRequest116(sender, receiver);
+		else if(Options.version == 115) request = new TradeRequest115(sender, receiver);
 		else if(Options.version == 114) request = new TradeRequest114(sender, receiver);
 		else if(Options.version == 113) request = new TradeRequest113(sender, receiver);
 		else if(Options.version == 112) request = new TradeRequest112(sender, receiver);
 		else {
 			Logger.log(Level.SEVERE, "UNRECOGNIZED SERVER VERSION IN CONFIG \"&7" + Options.version + "\""
-					+ "\n Valid versions include: 115, 114"
+					+ "\n Valid versions include: 116, 115, 114"
 					+ "\n TRADEUI IS DEFAULTED TO RUN ON 115, CHANGE THIS IF YOUR SERVER IS NOT RUNNING ON 1.15");
 		}
 		

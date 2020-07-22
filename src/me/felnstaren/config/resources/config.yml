@@ -20,9 +20,11 @@ allow-shifting: true
 require-trade-permission: true
 
 #Set to -1 to remove the distance requirement
+# *Does not allow players in different worlds to trade when set
 max-trade-distance: 15
 
 #How long until trades automatically time-out
+# *Highly suggested that all trades have a timeout
 trade-request-timeout: 20
 
 #Set this to false to not automatically cancel requests if players walk away
@@ -33,6 +35,7 @@ allow-self-trading: false
 
 #Set this to the main version your server is running on
 #Supported versions
+# (1.16.x)   --->   116
 # (1.15.x)   --->   115
 # (1.14.x)   --->   114
-version: 115
+version: 116
