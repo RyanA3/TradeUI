@@ -8,6 +8,7 @@ import me.felnstaren.command.CommandStub;
 import me.felnstaren.command.SubArgument;
 import me.felnstaren.config.ChatVar;
 import me.felnstaren.config.Language;
+import me.felnstaren.config.Options;
 import me.felnstaren.trade.request.TradeRequestHandler;
 
 public class TradePlayerArgument extends SubArgument {
@@ -23,7 +24,7 @@ public class TradePlayerArgument extends SubArgument {
 					return true;
 				}
 				
-				if(!receiver.hasPermission("trade_ui.trade")) {
+				if(!receiver.hasPermission("trade_ui.trade") && Options.require_trade_permission) {
 					player.sendMessage(Language.msg("err.player-hasnt-permission", new ChatVar("[Player]", receiver.getName()), new ChatVar("[Permission]", "trade_ui.trade")));
 					return true;
 				}
