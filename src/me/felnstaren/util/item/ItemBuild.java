@@ -4,6 +4,8 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import other.bananapuncher714.NBTEditor;
+
 public class ItemBuild {
 
 	private ItemStack item;
@@ -53,8 +55,8 @@ public class ItemBuild {
 		return this;
 	}
 	
-	public ItemBuild tag(String tag) {
-		ItemNBTEditor.addTag(item, tag);
+	public ItemBuild setTags(Object... tags) {
+		NBTEditor.set(item, 1, tags); //ItemNBTEditor.addTag(item, tag);
 		return this;
 	}
 	

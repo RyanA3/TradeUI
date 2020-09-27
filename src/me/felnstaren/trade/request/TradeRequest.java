@@ -4,8 +4,11 @@ import org.bukkit.entity.Player;
 
 import me.felnstaren.config.ChatVar;
 import me.felnstaren.config.Language;
+import me.felnstaren.config.Options;
+import me.felnstaren.util.chat.Message;
+import me.felnstaren.util.chat.Messenger;
 
-public abstract class TradeRequest {
+public class TradeRequest {
 
 	protected Player sender;
 	protected Player receiver;
@@ -17,7 +20,17 @@ public abstract class TradeRequest {
 		this.timeout = timeout;
 	}
 	
-	public abstract void sendInitialMessage();
+	public void sendInitialMessage() {
+		sender.sendMessage(Language.msg("ifo.sent-request", new ChatVar("[Player]", receiver.getName()), new ChatVar("[Timeout]", timeout + "")));
+		Message sender_json = new Message();
+		sender_json.addraw("[\"\",{\"text\":\"" + Language.msg("cmd.cancel-button") + "\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade cancel\"}}]");
+		if(Options.use_commands) Messenger.sendJSON(sender, sender_json.build());
+		
+		receiver.sendMessage(Language.msg("ifo.request-received", new ChatVar("[Player]", sender.getName()), new ChatVar("[Timeout]", timeout + "")));
+		Message receiver_json = new Message();
+		receiver_json.addraw("[\"\",{\"text\":\"" + Language.msg("cmd.accept-button") + "\",\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade accept " + sender.getName() + "\"}},{\"text\":\"   \",\"color\":\"gray\"},{\"text\":\"" + Language.msg("cmd.deny-button") + "\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/trade deny " + sender.getName() + "\"}}]");
+		if(Options.use_commands) Messenger.sendJSON(receiver, receiver_json.build());
+	}
 	
 	public void sendCancelMessage() {
 		sender.sendMessage(Language.msg("ifo.cancel-request", new ChatVar("[Player]", receiver.getName())));

@@ -19,8 +19,6 @@ public class Options {
 		require_trade_permission = config.getBoolean("require-trade-permission");
 		cancel_request_on_walk_away = config.getBoolean("cancel-request-on-walk-away");
 		allow_trade_self = config.getBoolean("allow-self-trading");
-		
-		version = config.getInt("version");
 	}
 	
 	
@@ -33,7 +31,5 @@ public class Options {
 	public static boolean require_trade_permission = true;
 	public static boolean cancel_request_on_walk_away = true;
 	public static boolean allow_trade_self = false;
-	
-	public static int version = 115;
 	
 }

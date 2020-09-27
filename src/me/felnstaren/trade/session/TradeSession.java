@@ -87,8 +87,8 @@ public class TradeSession {
 					return;
 				}
 				
-				p1.accept(p2.getInputColumn());
-				p2.accept(p1.getInputColumn());
+				p1.accept(p2.getTradeable());
+				p2.accept(p1.getTradeable());
 				closing = false;
 			}
 		}.runTaskLater(Loader.plugin, 1);

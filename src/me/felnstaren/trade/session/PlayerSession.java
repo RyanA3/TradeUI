@@ -18,15 +18,16 @@ import me.felnstaren.config.Language;
 import me.felnstaren.util.Mathy;
 import me.felnstaren.util.item.InventoryOrganizer;
 import me.felnstaren.util.item.ItemGiver;
-import me.felnstaren.util.item.ItemNBTEditor;
 import me.felnstaren.util.logger.Level;
 import me.felnstaren.util.logger.Logger;
 import me.felnstaren.util.menu.TradeMenu;
 import me.felnstaren.util.sound.NoiseMaker;
+import other.bananapuncher714.NBTEditor;
 
 public class PlayerSession {
 	
 	private final static List<Material> BUTTONS = Arrays.asList(Material.RED_TERRACOTTA, Material.YELLOW_TERRACOTTA, Material.GREEN_TERRACOTTA);
+	private final int button_slot = 48;
 	
 	private Player player;
 	private Inventory inventory;
@@ -76,8 +77,7 @@ public class PlayerSession {
 		
 		ItemStack clicked = event.getCurrentItem();
 		if(clicked == null) return;
-		
-		if(ItemNBTEditor.hasTag(clicked, "element")) event.setCancelled(true);
+		if(event.getRawSlot() == button_slot) event.setCancelled(true);	
 		
 		if(event.getClick() == ClickType.SHIFT_LEFT && !event.isCancelled()) {
 			event.setCancelled(true);
@@ -96,7 +96,7 @@ public class PlayerSession {
 		if(event.getClickedInventory().getType() != InventoryType.CHEST) return;
 		
 		//Handle the accept button click
-		if(ItemNBTEditor.hasTag(clicked, "accept_button")) {
+		if(event.getRawSlot() == button_slot) { //if(ItemNBTEditor.hasTag(clicked, "accept_button")) {
 			incAcceptButton(clicked, event.getClick());
 		} else {
 			other.resetAccept();
@@ -156,6 +156,12 @@ public class PlayerSession {
 	
 	public ItemStack[] getInputColumn() {
 		return InventoryOrganizer.getItems(inventory, 0, 0, 4, 6);
+	}
+	
+	public ItemStack[] getTradeable() {
+		ItemStack[] items = InventoryOrganizer.getItems(inventory, 0, 0, 4, 6);
+		items[items.length - 1] = null;
+		return items;
 	}
 	
 	public void setDisplayColumn(ItemStack[] right_column) {

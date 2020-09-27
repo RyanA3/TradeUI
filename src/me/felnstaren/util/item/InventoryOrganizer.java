@@ -3,6 +3,8 @@ package me.felnstaren.util.item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import other.bananapuncher714.NBTEditor;
+
 public class InventoryOrganizer {
 	
 	public static Inventory setItem(Inventory inventory, ItemStack item, int x, int y) {
@@ -66,7 +68,7 @@ public class InventoryOrganizer {
 		
 		for(int i = 0; i < items.length; i++) {
 			if(items[i] == null) continue;
-			if(ItemNBTEditor.hasTag(items[i], "element")) continue;
+			if(NBTEditor.contains(items[i], "element")) continue; //if(ItemNBTEditor.hasTag(items[i], "element")) continue;
 			purged[i] = items[i];
 		}
 		

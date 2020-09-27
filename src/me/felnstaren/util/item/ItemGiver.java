@@ -6,12 +6,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import other.bananapuncher714.NBTEditor;
+
 public class ItemGiver {
 
 	public static void giveItems(Player player, ItemStack... items) {
 		for(int i = 0; i < items.length; i++) {
 			if(items[i] == null || items[i].getType() == Material.AIR) continue;
-			if(ItemNBTEditor.hasTag(items[i], "element")) continue;
+			if(NBTEditor.contains(items[i], "element")) continue; //if(ItemNBTEditor.hasTag(items[i], "element")) continue;
 			if(hasConventionalInventorySpace(player)) player.getInventory().addItem(items[i]);
 			else dropItem(player.getLocation(), items[i]);
 		}
